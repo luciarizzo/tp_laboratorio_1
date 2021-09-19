@@ -34,7 +34,7 @@ float dividir(int primerNumero, int segundoNumero);
  * param2: recibe un entero a multiplicar
  * return: devuelve el resultado de la multiplicacion
  */
-int multiplicar(int primerNumero, int segundoNumero);
+float multiplicar(int primerNumero, int segundoNumero);
 /*
  * brief: realiza el factorial de un número entero
  * param1: recibe un entero

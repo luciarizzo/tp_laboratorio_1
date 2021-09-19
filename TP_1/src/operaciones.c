@@ -26,7 +26,7 @@ int restar(int primerNumero, int segundoNumero) {
 }
 
 float dividir(int primerNumero, int segundoNumero) {
-	int retorno;
+	float retorno;
 	float resultadoDivision;
 	if (segundoNumero == 0) {
 		retorno = -1;
@@ -37,8 +37,8 @@ float dividir(int primerNumero, int segundoNumero) {
 	return retorno;
 }
 
-int multiplicar(int primerNumero, int segundoNumero) {
-	int retorno;
+float multiplicar(int primerNumero, int segundoNumero) {
+	float retorno;
 	float resultadoMultiplicacion;
 	resultadoMultiplicacion = primerNumero * segundoNumero;
 	retorno = resultadoMultiplicacion;
