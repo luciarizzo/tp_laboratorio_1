@@ -650,11 +650,13 @@ int utn_getCaracterSiNo(void)
 	char c;
 
 	getChar("Ingrese Si 's' o No 'n'", &c);
+	fflush(stdin);
 
 	while(c!='s' && c!='n')
 	{
 		puts("ERROR. OPCION NO VALIDA");
 		getChar("Ingrese Si 's' o No 'n'", &c);
+		fflush(stdin);
 
 	}
 		if(c=='s')
