@@ -68,7 +68,7 @@ Employee addEmployee(Employee lista[], int len) {
 		utn_getNumero(&id, "\nIngrese el número de ID del empleado\n",
 				"\nIngrese un ID válido, debe ser entre 1 y 1000\n", 1, 1000,
 				2);
-	}while(BuscarId(lista, len, id) != -1 );
+	}while(BuscarId(lista, len, id) != -1);
 
 	empleado.idEmployee = id;
 
