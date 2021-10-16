@@ -7,8 +7,8 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "utn.h"
 #include <string.h>
+#include "utn.h"
 #include "arrayEmployees.h"
 #include "informes.h"
 #define CANTEMPLEADOS 1000
