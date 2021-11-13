@@ -22,7 +22,6 @@ Employee* employee_new() {
 	return empleado;
 }
 
-
 //SETTERS
 
 int employee_setId(Employee *this, int id) {
@@ -66,7 +65,6 @@ int employee_setSueldo(Employee *this, int sueldo) {
 	return retorno;
 }
 
-
 //solo para leer del archivo
 Employee* employee_newParametros(char *idStr, char *nombreStr,
 		char *horasTrabajadasStr, char *sueldoStr) {
@@ -74,8 +72,7 @@ Employee* employee_newParametros(char *idStr, char *nombreStr,
 	Employee *pEmpleado = employee_new();
 
 	if (pEmpleado != NULL && idStr != NULL && nombreStr != NULL
-			&& horasTrabajadasStr != NULL && sueldoStr != NULL)
-	{
+			&& horasTrabajadasStr != NULL && sueldoStr != NULL) {
 		employee_setId(pEmpleado, atoi(idStr));
 		employee_setNombre(pEmpleado, nombreStr);
 		employee_setHorasTrabajadas(pEmpleado, atoi(horasTrabajadasStr));
@@ -83,7 +80,6 @@ Employee* employee_newParametros(char *idStr, char *nombreStr,
 	}
 	return pEmpleado;
 }
-
 
 //GETTERS
 
@@ -127,4 +123,62 @@ int employee_getSueldo(Employee *this, int *sueldo) {
 	return retorno;
 }
 
+int employee_sortByNombre(void *paramUno, void *paramDos) {
+	int retorno = 0;
+	char bufferNombreUno[1000];
+	char bufferNombreDos[1000];
+	if (paramUno != NULL && paramDos != NULL) {
+		if (employee_getNombre((Employee*) paramUno, bufferNombreUno) == 0
+				&& employee_getNombre((Employee*) paramDos, bufferNombreDos)
+						== 0) {
+			if (stricmp(bufferNombreUno, bufferNombreDos) > 0) {
+				retorno = 1;
+			}
+			if (stricmp(bufferNombreUno, bufferNombreDos) < 0) {
+				retorno = -1;
+			}
+		}
+	}
+	return retorno;
+}
 
+int employee_sortByHorasTrabajadas(void *paramUno, void *paramDos) {
+	int retorno;
+	retorno = 0;
+	int bufferHorasUno;
+	int bufferHorasDos;
+
+	if (paramUno != NULL && paramDos != NULL) {
+		if (employee_getHorasTrabajadas((Employee*)paramUno, &bufferHorasUno)
+				== 0
+				&& employee_getHorasTrabajadas((Employee*)paramDos,
+						&bufferHorasDos) == 0) {
+			if (bufferHorasUno > bufferHorasDos) {
+				retorno = 1;
+			}
+			if (bufferHorasDos > bufferHorasUno) {
+				retorno = -1;
+			}
+		}
+	}
+	return retorno;
+}
+
+int employee_sortBySueldo(void *paramUno, void *paramDos) {
+	int retorno;
+	retorno = 0;
+	int bufferSueldoUno;
+	int bufferSueldoDos;
+	if (paramUno != NULL && paramDos != NULL) {
+		if (employee_getSueldo((Employee*)paramUno, &bufferSueldoUno) == 0 && employee_getSueldo((Employee*)paramDos, &bufferSueldoDos) == 0)
+		{
+			if (bufferSueldoUno > bufferSueldoDos) {
+				retorno = 1;
+			}
+			if (bufferSueldoDos > bufferSueldoUno) {
+				retorno = -1;
+			}
+		}
+	}
+	return retorno;
+}

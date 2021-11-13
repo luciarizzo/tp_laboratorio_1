@@ -59,26 +59,23 @@ int controller_loadFromBinary(char *path, LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
-int controller_getMaximoId(LinkedList* pArrayListEmployee){
+int controller_getMaximoId(LinkedList *pArrayListEmployee) {
 	int idMaximo = -1;
 	int largoLL;
 	int id;
-	Employee* pEmpleado = NULL;
-	if(pArrayListEmployee != NULL && ll_isEmpty(pArrayListEmployee) == 0){
+	Employee *pEmpleado = NULL;
+	if (pArrayListEmployee != NULL && ll_isEmpty(pArrayListEmployee) == 0) {
 		largoLL = ll_len(pArrayListEmployee);
-		for(int i=0; i<largoLL; i++)
-		{
-			pEmpleado = (Employee*)ll_get(pArrayListEmployee, i);
+		for (int i = 0; i < largoLL; i++) {
+			pEmpleado = (Employee*) ll_get(pArrayListEmployee, i);
 			employee_getId(pEmpleado, &id);
-			if(id>idMaximo){
+			if (id > idMaximo) {
 				idMaximo = id;
 			}
 		}
 	}
 	return idMaximo;
 }
-
-
 
 /** \brief Alta de empleados
  *
@@ -111,7 +108,8 @@ int controller_addEmployee(LinkedList *pArrayListEmployee) {
 			idEmpleado = controller_getMaximoId(pArrayListEmployee);
 			idEmpleado++;
 			auxEmpleado = employee_new();
-			if (auxEmpleado != NULL && employee_setId(auxEmpleado, idEmpleado) == 0
+			if (auxEmpleado != NULL
+					&& employee_setId(auxEmpleado, idEmpleado) == 0
 					&& employee_setNombre(auxEmpleado, auxNombre) == 0
 					&& employee_setHorasTrabajadas(auxEmpleado,
 							auxHorasTrabajadas) == 0
@@ -123,7 +121,6 @@ int controller_addEmployee(LinkedList *pArrayListEmployee) {
 
 	return retorno;
 }
-
 
 int controller_findEmployeebyIdReturnIndex(LinkedList *pArrayListEmployee,
 		int id) {
@@ -293,49 +290,6 @@ int controller_ListEmployee(LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
-int controller_sortByNombre(void* paramUno, void* paramDos){
-	int retorno;
-	retorno = 0;
-	char bufferPrimerNombre[1000];
-	char bufferSegundoNombre[1000];
-	if(paramUno != NULL && paramDos != NULL){
-		employee_getNombre(paramUno,bufferPrimerNombre);
-		employee_getNombre(paramDos,bufferSegundoNombre);
-		if(strcmp(bufferPrimerNombre, bufferSegundoNombre)>0){
-			retorno = 1;
-		}
-	}
-
-	return retorno;
-}
-
-int controller_sortByHorasTrabajadas(void* paramUno, void* paramDos){
-	int retorno;
-	retorno = -1;
-	Employee* pEmpleadoUno;
-	Employee* pEmpleadoDos;
-	if(paramUno != NULL && paramDos != NULL){
-		pEmpleadoUno = (Employee*)paramUno;
-		pEmpleadoDos = (Employee*)paramDos;
-		if(pEmpleadoUno->horasTrabajadas > pEmpleadoDos->horasTrabajadas)
-			retorno = 1;
-	}
-	return retorno;
-}
-
-int controller_sortBySueldo(void* paramUno, void* paramDos){
-	int retorno;
-	retorno = -1;
-	Employee* pEmpleadoUno;
-	Employee* pEmpleadoDos;
-	if(paramUno != NULL && paramDos != NULL){
-		pEmpleadoUno = (Employee*)paramUno;
-		pEmpleadoDos = (Employee*)paramDos;
-		if(pEmpleadoUno->sueldo > pEmpleadoDos->sueldo)
-			retorno = 1;
-	}
-	return retorno;
-}
 /** \brief Ordenar empleados
  *
  * \param path char*
@@ -343,31 +297,40 @@ int controller_sortBySueldo(void* paramUno, void* paramDos){
  * \return int
  *
  */
-int controller_sortEmployee(LinkedList *pArrayListEmployee)
-{
+int controller_sortEmployee(LinkedList *pArrayListEmployee) {
 	int retorno = -1;
 	int opcion;
+	int criterio;
 
 	if (pArrayListEmployee != NULL) {
 		do {
 			utn_getNumero(&opcion,
-					"Elija por que criterio ordenar: \n1. Nombre \n2. Horas Trabajadas \n3. Sueldo \n4.Salir del submenu",
-							"Error, numero no valido\n", 1, 4, 2);
+					"Elija ordenar por: \n1. Nombre \n2. Horas Trabajadas \n3. Sueldo \n4.Salir del submenu",
+					"Error, opcion no valida\n", 1, 4, 2);
 			switch (opcion) {
 			case 1:
-				if (ll_sort(pArrayListEmployee, controller_sortByNombre, 1) == 0) {
+				utn_getNumero(&criterio,
+						"Elija por que criterio ordenar:\n0.Descendente\n1.Ascendente",
+						"Error, numero no valido\n", 0, 1, 2);
+				if (ll_sort(pArrayListEmployee, employee_sortByNombre, criterio) == 0) {
 					printf("\nSe ordenó por nombre la lista correctamente\n");
 				}
 				break;
 			case 2:
-				if (ll_sort(pArrayListEmployee, controller_sortByHorasTrabajadas,
-						1) == 1) {
+				utn_getNumero(&criterio,
+						"Elija por que criterio ordenar:\n0.Descendente\n1.Ascendente",
+						"Error, numero no valido\n", 0, 1, 2);
+				if (ll_sort(pArrayListEmployee, employee_sortByHorasTrabajadas,
+						criterio) == 0) {
 					printf(
 							"\nSe ordenó por horas trabajadas la lista correctamente\n");
 				}
 				break;
 			case 3:
-				if (ll_sort(pArrayListEmployee, controller_sortBySueldo, 1)
+				utn_getNumero(&criterio,
+						"Elija por que criterio ordenar:\n0.Descendente\n1.Ascendente",
+						"Error, numero no valido\n", 0, 1, 2);
+				if (ll_sort(pArrayListEmployee, employee_sortBySueldo, criterio)
 						== 0) {
 					printf("\nSe ordenó por sueldos la lista correctamente\n");
 				}
