@@ -23,7 +23,6 @@ int main() {
 
 	//int option = 0;
 	int option;
-	int proximoId = 1000;
 	int flagPrimeraCarga = -1;
 	LinkedList *listaEmpleados = ll_newLinkedList();
 
@@ -48,8 +47,7 @@ int main() {
 
 		case 3: //Alta de empleado
 			if (flagPrimeraCarga == 0){
-				controller_addEmployee(listaEmpleados, proximoId);
-				proximoId++;
+				controller_addEmployee(listaEmpleados);
 			} else {
 				printf("\nError. Debe cargar los datos de empleados primero con la opcion 2 o 3 del menu\n");
 			}
@@ -68,6 +66,7 @@ int main() {
 			break;
 
 		case 7: //Ordenar empleados
+			controller_sortEmployee(listaEmpleados);
 			break;
 
 		case 8: //Guardar los datos de los empleados en el archivo data.csv (modo texto).

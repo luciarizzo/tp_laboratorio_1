@@ -127,18 +127,4 @@ int employee_getSueldo(Employee *this, int *sueldo) {
 	return retorno;
 }
 
-int employee_sortByNombre(void){
-	return 1;
-}
 
-int employee_sortByHorasTrabajadas(void){
-	return 1;
-}
-
-int employee_sortBySueldo(void){
-	return 1;
-}
-
-int employee_sortById(void){
-	return 1;
-}

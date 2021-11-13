@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "LinkedList.h"
 #include "Employee.h"
 #include "parser.h"
@@ -58,6 +59,27 @@ int controller_loadFromBinary(char *path, LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
+int controller_getMaximoId(LinkedList* pArrayListEmployee){
+	int idMaximo = -1;
+	int largoLL;
+	int id;
+	Employee* pEmpleado = NULL;
+	if(pArrayListEmployee != NULL && ll_isEmpty(pArrayListEmployee) == 0){
+		largoLL = ll_len(pArrayListEmployee);
+		for(int i=0; i<largoLL; i++)
+		{
+			pEmpleado = (Employee*)ll_get(pArrayListEmployee, i);
+			employee_getId(pEmpleado, &id);
+			if(id>idMaximo){
+				idMaximo = id;
+			}
+		}
+	}
+	return idMaximo;
+}
+
+
+
 /** \brief Alta de empleados
  *
  * \param path char*
@@ -66,8 +88,9 @@ int controller_loadFromBinary(char *path, LinkedList *pArrayListEmployee) {
  *
  */
 
-int controller_addEmployee(LinkedList *pArrayListEmployee, int id) {
+int controller_addEmployee(LinkedList *pArrayListEmployee) {
 	int retorno;
+	int idEmpleado;
 	retorno = -1;
 	char auxNombre[100];
 	int auxHorasTrabajadas;
@@ -85,9 +108,10 @@ int controller_addEmployee(LinkedList *pArrayListEmployee, int id) {
 				&& utn_getNumero(&auxSueldo,
 						"\nIngrese el sueldo del nuevo empleado\n",
 						"\nError, numero no válido\n", 1, 10000, 2) == 0) {
-			//id++;
+			idEmpleado = controller_getMaximoId(pArrayListEmployee);
+			idEmpleado++;
 			auxEmpleado = employee_new();
-			if (auxEmpleado != NULL && employee_setId(auxEmpleado, id) == 0
+			if (auxEmpleado != NULL && employee_setId(auxEmpleado, idEmpleado) == 0
 					&& employee_setNombre(auxEmpleado, auxNombre) == 0
 					&& employee_setHorasTrabajadas(auxEmpleado,
 							auxHorasTrabajadas) == 0
@@ -100,32 +124,6 @@ int controller_addEmployee(LinkedList *pArrayListEmployee, int id) {
 	return retorno;
 }
 
-/** \brief Obtiene Id Maximo
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
-int controller_getMaxId(LinkedList *pArrayListEmployee) {
-	int idMaximo;
-	idMaximo = -1;
-	int largoLL;
-	int id;
-
-	Employee *auxEmpleado = NULL;
-	if (pArrayListEmployee != NULL && ll_isEmpty(pArrayListEmployee) == 0) {
-		largoLL = ll_len(pArrayListEmployee);
-		for (int i = 0; i < largoLL; i++) {
-			auxEmpleado = (Employee*) ll_get(pArrayListEmployee, i);
-			employee_getId(auxEmpleado, &id);
-			if (id > idMaximo) {
-				idMaximo = id;
-			}
-		}
-	}
-	return idMaximo;
-}
 
 int controller_findEmployeebyIdReturnIndex(LinkedList *pArrayListEmployee,
 		int id) {
@@ -235,7 +233,7 @@ int controller_removeEmployee(LinkedList *pArrayListEmployee) {
 	int auxMaxId;
 	int largoLL;
 	int i;
-	auxMaxId = controller_getMaxId(pArrayListEmployee);
+	auxMaxId = controller_getMaximoId(pArrayListEmployee);
 	largoLL = ll_len(pArrayListEmployee);
 	utn_getNumero(&id, "Ingrese Id de la persona que desea borrar",
 			"Error, ingrese valor numerico\n", 1, auxMaxId, 2);
@@ -250,7 +248,7 @@ int controller_removeEmployee(LinkedList *pArrayListEmployee) {
 			break;
 		}
 	}
-	if (retorno == -1){
+	if (retorno == -1) {
 		printf("\nEl empleado no se pudo eliminar\n");
 	}
 	return retorno;
@@ -295,6 +293,49 @@ int controller_ListEmployee(LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
+int controller_sortByNombre(void* paramUno, void* paramDos){
+	int retorno;
+	retorno = 0;
+	char bufferPrimerNombre[1000];
+	char bufferSegundoNombre[1000];
+	if(paramUno != NULL && paramDos != NULL){
+		employee_getNombre(paramUno,bufferPrimerNombre);
+		employee_getNombre(paramDos,bufferSegundoNombre);
+		if(strcmp(bufferPrimerNombre, bufferSegundoNombre)>0){
+			retorno = 1;
+		}
+	}
+
+	return retorno;
+}
+
+int controller_sortByHorasTrabajadas(void* paramUno, void* paramDos){
+	int retorno;
+	retorno = -1;
+	Employee* pEmpleadoUno;
+	Employee* pEmpleadoDos;
+	if(paramUno != NULL && paramDos != NULL){
+		pEmpleadoUno = (Employee*)paramUno;
+		pEmpleadoDos = (Employee*)paramDos;
+		if(pEmpleadoUno->horasTrabajadas > pEmpleadoDos->horasTrabajadas)
+			retorno = 1;
+	}
+	return retorno;
+}
+
+int controller_sortBySueldo(void* paramUno, void* paramDos){
+	int retorno;
+	retorno = -1;
+	Employee* pEmpleadoUno;
+	Employee* pEmpleadoDos;
+	if(paramUno != NULL && paramDos != NULL){
+		pEmpleadoUno = (Employee*)paramUno;
+		pEmpleadoDos = (Employee*)paramDos;
+		if(pEmpleadoUno->sueldo > pEmpleadoDos->sueldo)
+			retorno = 1;
+	}
+	return retorno;
+}
 /** \brief Ordenar empleados
  *
  * \param path char*
@@ -302,15 +343,41 @@ int controller_ListEmployee(LinkedList *pArrayListEmployee) {
  * \return int
  *
  */
-int controller_sortEmployee(LinkedList *pArrayListEmployee) {
+int controller_sortEmployee(LinkedList *pArrayListEmployee)
+{
+	int retorno = -1;
+	int opcion;
 
-
-
-
-
-	return 1;
+	if (pArrayListEmployee != NULL) {
+		do {
+			utn_getNumero(&opcion,
+					"Elija por que criterio ordenar: \n1. Nombre \n2. Horas Trabajadas \n3. Sueldo \n4.Salir del submenu",
+							"Error, numero no valido\n", 1, 4, 2);
+			switch (opcion) {
+			case 1:
+				if (ll_sort(pArrayListEmployee, controller_sortByNombre, 1) == 0) {
+					printf("\nSe ordenó por nombre la lista correctamente\n");
+				}
+				break;
+			case 2:
+				if (ll_sort(pArrayListEmployee, controller_sortByHorasTrabajadas,
+						1) == 1) {
+					printf(
+							"\nSe ordenó por horas trabajadas la lista correctamente\n");
+				}
+				break;
+			case 3:
+				if (ll_sort(pArrayListEmployee, controller_sortBySueldo, 1)
+						== 0) {
+					printf("\nSe ordenó por sueldos la lista correctamente\n");
+				}
+				break;
+			}
+		} while (opcion != 4);
+		retorno = 0;
+	}
+	return retorno;
 }
-
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
  *
  * \param path char*
