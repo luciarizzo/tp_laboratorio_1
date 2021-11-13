@@ -11,7 +11,6 @@ void employee_delete(Employee *this) {
 }
 
 Employee* employee_new() {
-	//asigno el espacio en memoria para el empleado y le inicializo valores
 	Employee *empleado = (Employee*) malloc(sizeof(Employee));
 	if (empleado != NULL) {
 		empleado->id = 0;
@@ -70,7 +69,6 @@ Employee* employee_newParametros(char *idStr, char *nombreStr,
 		char *horasTrabajadasStr, char *sueldoStr) {
 	//acá paso por parametros los campos de la estructura
 	Employee *pEmpleado = employee_new();
-
 	if (pEmpleado != NULL && idStr != NULL && nombreStr != NULL
 			&& horasTrabajadasStr != NULL && sueldoStr != NULL) {
 		employee_setId(pEmpleado, atoi(idStr));
