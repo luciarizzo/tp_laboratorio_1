@@ -123,6 +123,25 @@ int employee_getSueldo(Employee *this, int *sueldo) {
 	return retorno;
 }
 
+int employee_sortById(void *paramUno, void *paramDos) {
+	int retorno;
+	retorno = 0;
+	int bufferIdUno;
+	int bufferIdDos;
+	if (paramUno != NULL && paramDos != NULL) {
+		if (employee_getId((Employee*)paramUno, &bufferIdUno) == 0 && employee_getId((Employee*)paramDos, &bufferIdDos) == 0)
+		{
+			if (bufferIdUno > bufferIdDos) {
+				retorno = 1;
+			}
+			if (bufferIdDos > bufferIdUno) {
+				retorno = -1;
+			}
+		}
+	}
+	return retorno;
+}
+
 int employee_sortByNombre(void *paramUno, void *paramDos) {
 	int retorno = 0;
 	char bufferNombreUno[1000];

@@ -26,10 +26,9 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
 int employee_setSueldo(Employee* this,int sueldo);
 int employee_getSueldo(Employee* this,int* sueldo);
 
+int employee_sortById(void *paramUno, void *paramDos);
 int employee_sortByNombre(void* paramUno, void* paramDos);
 int employee_sortByHorasTrabajadas(void* paramUno, void *paramDos);
 int employee_sortBySueldo(void* paramUno, void *paramDos);
-
-
 
 #endif // employee_H_INCLUDED

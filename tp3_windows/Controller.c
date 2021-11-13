@@ -6,13 +6,7 @@
 #include "parser.h"
 #include "utn.h"
 
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_loadFromText(char *path, LinkedList *pArrayListEmployee) {
 	int retorno;
 	retorno = -1;
@@ -22,7 +16,7 @@ int controller_loadFromText(char *path, LinkedList *pArrayListEmployee) {
 		if (pFile != NULL && ll_isEmpty(pArrayListEmployee) == 1) {
 			if (parser_EmployeeFromText(pFile, pArrayListEmployee) == 0) {
 				printf(
-						"\nEl archivo de texto se cargo correctamente. Cerrado.");
+						"\nEl archivo de texto se cargo correctamente. Cerrado.\n");
 				retorno = 0;
 			} else {
 				printf("\nEl archivo no se pudo cargar correctamente\n");
@@ -33,13 +27,7 @@ int controller_loadFromText(char *path, LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_loadFromBinary(char *path, LinkedList *pArrayListEmployee) {
 	int retorno;
 	retorno = -1;
@@ -48,7 +36,7 @@ int controller_loadFromBinary(char *path, LinkedList *pArrayListEmployee) {
 		FILE *pFile = fopen(path, "rb");
 		if (pFile != NULL && ll_isEmpty(pArrayListEmployee) == 1) {
 			if (parser_EmployeeFromBinary(pFile, pArrayListEmployee) == 0) {
-				printf("\nEl archivo se cargo binario correctamente. Cerrado.");
+				printf("\nEl archivo se cargo binario correctamente. Cerrado.\n");
 				retorno = 0;
 			} else {
 				printf("\nEl archivo no se pudo cargar correctamente\n");
@@ -77,14 +65,6 @@ int controller_getMaximoId(LinkedList *pArrayListEmployee) {
 	return idMaximo;
 }
 
-/** \brief Alta de empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
-
 int controller_addEmployee(LinkedList *pArrayListEmployee) {
 	int retorno;
 	int idEmpleado;
@@ -96,7 +76,7 @@ int controller_addEmployee(LinkedList *pArrayListEmployee) {
 
 	if (pArrayListEmployee != NULL) {
 		printf(
-				"\nRecuerde que una vez que finalice la carga del empleado, debe guardar la carga con la opcion 8 o 9 del menu\n");
+				"\nRecuerde que una vez que finalice la carga del empleado, debe guardar la carga con la opcion 8 o 9 del menu, sino perdera los nuevos datos cargados\n");
 		if (utn_getNombre(auxNombre, "\nIngrese el nombre del nuevo empleado\n",
 				"\nError, nombre no válido\n", 2, 100) == 0
 				&& utn_getNumero(&auxHorasTrabajadas,
@@ -115,6 +95,7 @@ int controller_addEmployee(LinkedList *pArrayListEmployee) {
 							auxHorasTrabajadas) == 0
 					&& employee_setSueldo(auxEmpleado, auxSueldo) == 0) {
 				ll_add(pArrayListEmployee, auxEmpleado);
+				retorno = 0;
 			}
 		}
 	}
@@ -140,13 +121,6 @@ int controller_findEmployeebyIdReturnIndex(LinkedList *pArrayListEmployee,
 	return retorno;
 }
 
-/** \brief Modificar datos de empleado
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_editEmployee(LinkedList *pArrayListEmployee) {
 	int retorno;
 	retorno = -1;
@@ -175,6 +149,15 @@ int controller_editEmployee(LinkedList *pArrayListEmployee) {
 		employee_getId(auxEmpleado, &auxId);
 
 		if (auxId == id) {
+			auxEmpleado = ll_get(pArrayListEmployee, i);
+			employee_getId(auxEmpleado, &auxId);
+			employee_getNombre(auxEmpleado, auxNombre);
+			employee_getHorasTrabajadas(auxEmpleado, &auxHorasTrabajadas);
+			employee_getSueldo(auxEmpleado, &auxSueldo);
+			printf("\nUsted eligio editar al empleado con los siguientes datos\n");
+			printf("%-5d		%-15s		%4d			%-10d\n", auxId, auxNombre,
+					auxHorasTrabajadas, auxSueldo);
+
 			utn_getNumero(&opcionesSubmenuModificar,
 					"\nIngrese que desea modificar \n1.Nombre\n2.Horas trabajadas\n3.Sueldo\n",
 					"\nError, numero no válido\n", 1, 3, 2);
@@ -214,13 +197,6 @@ int controller_editEmployee(LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
-/** \brief Baja de empleado
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_removeEmployee(LinkedList *pArrayListEmployee) {
 	int retorno;
 	retorno = -1;
@@ -232,15 +208,15 @@ int controller_removeEmployee(LinkedList *pArrayListEmployee) {
 	int i;
 	auxMaxId = controller_getMaximoId(pArrayListEmployee);
 	largoLL = ll_len(pArrayListEmployee);
-	utn_getNumero(&id, "Ingrese Id de la persona que desea borrar",
-			"Error, ingrese valor numerico\n", 1, auxMaxId, 2);
+	utn_getNumero(&id, "\nIngrese Id de la persona que desea borrar\n",
+			"\nError, ingrese valor numerico\n", 1, auxMaxId, 2);
 	largoLL = ll_len(pArrayListEmployee);
 	for (i = 0; i < largoLL; i++) {
 		auxEmpleado = ll_get(pArrayListEmployee, i);
 		employee_getId(auxEmpleado, &auxId);
 		if (auxId == id) {
 			ll_remove(pArrayListEmployee, i);
-			printf("\nEl empleado ha sido eliminado\n");
+			printf("\nEl empleado ha sido eliminado.\n");
 			retorno = 0;
 			break;
 		}
@@ -252,13 +228,6 @@ int controller_removeEmployee(LinkedList *pArrayListEmployee) {
 
 }
 
-/** \brief Listar empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_ListEmployee(LinkedList *pArrayListEmployee) {
 	int retorno;
 	retorno = -1;
@@ -290,13 +259,6 @@ int controller_ListEmployee(LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
-/** \brief Ordenar empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_sortEmployee(LinkedList *pArrayListEmployee) {
 	int retorno = -1;
 	int opcion;
@@ -305,8 +267,8 @@ int controller_sortEmployee(LinkedList *pArrayListEmployee) {
 	if (pArrayListEmployee != NULL) {
 		do {
 			utn_getNumero(&opcion,
-					"Elija ordenar por: \n1. Nombre \n2. Horas Trabajadas \n3. Sueldo \n4.Salir del submenu",
-					"Error, opcion no valida\n", 1, 4, 2);
+					"Elija ordenar por: \n1. Nombre \n2. Horas Trabajadas \n3. Sueldo \n4.ID \n5.Salir del submenu",
+					"Error, opcion no valida\n", 1, 5, 2);
 			switch (opcion) {
 			case 1:
 				utn_getNumero(&criterio,
@@ -335,19 +297,21 @@ int controller_sortEmployee(LinkedList *pArrayListEmployee) {
 					printf("\nSe ordenó por sueldos la lista correctamente\n");
 				}
 				break;
+			case 4:
+				utn_getNumero(&criterio,
+						"Elija por que criterio ordenar:\n0.Descendente\n1.Ascendente",
+						"Error, numero no valido\n", 0, 1, 2);
+				if(ll_sort(pArrayListEmployee, employee_sortById, criterio)
+						== 0){
+					printf("\nSe ordenó por sueldos la lista correctamente\n");
+				}
 			}
-		} while (opcion != 4);
+		} while (opcion != 5);
 		retorno = 0;
 	}
 	return retorno;
 }
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
+
 int controller_saveAsText(char *path, LinkedList *pArrayListEmployee) {
 	int retorno;
 	retorno = -1;
@@ -357,7 +321,6 @@ int controller_saveAsText(char *path, LinkedList *pArrayListEmployee) {
 	int auxSueldo;
 	int auxId;
 	int i;
-	retorno = -1;
 	Employee *auxEmpleado;
 	if (path != NULL && pArrayListEmployee != NULL) {
 		//ll_isEmpty devuelve -1 si es null, 1 si esta vacio y 0 si tiene contenido, de esta forma me avisa 1 sola vez la lectura correcta del archivo
@@ -388,20 +351,12 @@ int controller_saveAsText(char *path, LinkedList *pArrayListEmployee) {
 	return retorno;
 }
 
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int controller_saveAsBinary(char *path, LinkedList *pArrayListEmployee) {
 	int retorno;
 	retorno = -1;
 	int largoLL;
 	int valorRetornado;
 	int i;
-	retorno = -1;
 	Employee *auxEmpleado;
 	if (path != NULL && pArrayListEmployee != NULL) {
 		//ll_isEmpty devuelve -1 si es null, 1 si esta vacio y 0 si tiene contenido, de esta forma me avisa 1 sola vez la lectura correcta del archivo

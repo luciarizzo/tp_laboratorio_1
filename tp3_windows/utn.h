@@ -90,79 +90,297 @@ int convertirTemperaturaCaF(int* temperaturaC);
 
 //void cargarArray(int array[], int tamanio);
 
-
+/**
+ * \brief Recorre el array buscando un número maximo
+ * \param array[] array que se recorrerá en la fx
+ * \param tamanio es el tamaño del array
+ * \return Retorna el máximo encontrado.
+ */
 int buscarMaximo(int array[], int tamanio);
 
+/**
+ * \brief Permite la carga de los elementos del array
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void cargarArray(int array[], int tamanio);
 
+/**
+ * \brief Imprime los elementos del array
+ * \param array[] array a mostrar
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void mostrarArray(int array[], int tamanio);
 
+/**
+ * \brief Muestra el índice del elemento de mayor valor del array
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \param maximo el máximo valor a encontrar en el array
+ * \sin return, void (vacio).
+ */
 void mostrarIndiceMaximo(int array[], int tamanio, int maximo);
 
 /*void contadorNumeros(int *contadorPositivos, int *contadorNegativos,
 		int array[], int tamanio);*/
 
+/**
+ * \brief Cuenta numeros positivos y negativos del array
+ * \param array[] array donde se contarán los positivos y negativos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void contadorNumerosPositivosNegativos(int array[], int tamanio);
 
+/**
+ * \brief Cuenta los numeros pares del array
+ * \param *pPares Puntero donde se guardará la cantidad de numeros pares
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void contadorPares(int *pPares, int array[], int tamanio);
 
+/**
+ * \brief Cuenta los numeros impares del array
+ * \param *pImpares Puntero donde se guardará la cantidad de numeros impares
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void contadorImpares(int *pImpares, int array[], int tamanio);
 
+/**
+ * \brief Muestra el contenido de las posiciones impares
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void mostrarContenidoPosicionesImpares(int array[], int tamanio);
 
+/**
+ * \brief Suma los numeros pares
+ * \param *pSumaPares Puntero donde se guardará la suma de numeros pares
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void sumarNumerosPares(int *pSumaPares, int array[], int tamanio);
 
+/**
+ * \brief Ordena de manera descendente los elementos de un array
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void ordenarDescendente(int array[], int tamanio);
 
+/**
+ * \brief Ordena de manera ascendente los elementos de un array
+ * \param array[] array donde se cargarán los elementos
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void ordenarAscendente(int array[], int tamanio);
 
+/**
+ * \brief Carga de manera paralela tres array
+ * \param arrayUno[] primer array a ser cargado
+ * \ param arrayDos[] segundo array a ser cargado
+ * \ param arrayTres[] tercer array a ser cargado
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void cargarArrayParalelo(int arrayUno[], int arrayDos[], int arrayTres[], int tamanio);
 
+/**
+ * \brief Ordena diferentes vectores
+ * \param arrayUno[] primer array a ser ordenado
+ * \ param arrayDos[] segundo array a ser ordenado
+ * \ param arrayTres[] tercer array a ser ordenado
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void ordenarVectores(int arrayUno[],int arrayDos[],int arrayTres[],int tamanio);
 
+/**
+ * \brief Muestra los vectores ordenados
+ * \param arrayUno[] primer array ordenado
+ * \ param arrayDos[] segundo array  ordenado
+ * \ param arrayTres[] tercer array ordenado
+ * \param tamanio es el tamaño del array
+ * \sin return, void (vacio).
+ */
 void mostrarVectores(int arrayUno[],int arrayDos[],int arrayTres[],int tamanio);
 
+/**
+ * \brief Valida que sea un numero de telefono correcto
+ * \param *cadena cadena de caracteres a ser validada
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int esTelefonoValido(char* cadena);
 
+/**
+ * \brief Valida que sea un numero flotante
+ * \param *cadena cadena de caracteres a ser validada
+ * \param longitud : es el tamaño del char cadena a ser validado
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int esFlotante(char* cadena, int longitud);
 
+/**
+ * \brief Valida que sea un nombre
+ * \param *cadena cadena de caracteres a ser validada
+ * \param longitud : es el tamaño del char cadena a ser validado
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int esNombre(char* cadena,int longitud);
 
+/**
+ * \brief Valida que sea solo una letra
+ * \param *pResultado letra a ser validada
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int esSoloLetra(char *pResultado);
 
+/**
+ * \brief Valida que sea solo una letra con espacio
+ * \param *pResultado letra a ser validada
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int esLetraConEspacio(char *pResultado);
 
+/**
+ * \brief Ingresa un cuit valido
+ * \param *pResultado puntero donde se guardará el cuit
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param reintentos numero de reintentos que se permitiran
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int utn_getCUIT(char *pResultado, char *mensaje, char *mensajeError,
 		int reintentos);
 
+/**
+ * \brief Valida que sea un cuit
+ * \param *cadena cadena de caracteres con el cuit a ser validado
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int esCUIT(char *cadena);
 
+/**
+ * \brief ingresa un numero de telefono
+ * \param *pResultado puntero donde se guardará el telefono
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param minSize numero minimo para validar el numero
+ * \param maxSize numero maximo para validar el numero
+ * \param min numero minimo para validar el numero
+ * \para max numero maximo para validar el numero
+ * \param reintentos numero de reintentos que se permitiran
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int utn_getTelefono(char *pResultado, char *mensaje, char *mensajeError,
 		int minSize, int maxSize, int min, int max, int reintentos);
 
+/**
+ * \brief Ingresa un nombre
+ * \param *pResultado puntero donde se guardará el telefono
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param reintentos numero de reintentos que se permitiran
+ * \param longitud: longitud del nombre
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int utn_getNombre(char *pResultado, char *mensaje, char *mensajeError,
 		int reintentos, int longitud);
 
+/**
+ * \brief Ingresa un string
+ * \param aux[] variable donde se guardará la cadena de caracteres
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param reintentos numero de reintentos que se permitiran
+ * \return  devuelve 0 si es se pudo ingresar o -1 si no
+ */
 int utn_getString(char aux[], char *mensaje, char *mensajeError, int reintentos);
 
+/**
+ * \brief Ingresa un caracteres para elegir F o M
+ * \param *pResultado donde se guardará el caracter elegido
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param reintentos numero de reintentos que se permitiran
+ * \return  devuelve 0 si es se pudo ingresar o -1 si no
+ */
 int utn_getCaracterSexo(char *pResultado, char *mensaje, char *mensajeError,
 		char string[][20], int cantidadArray, int reintentos);
 
+/**
+ * \brief Ingresa un caracteres para elegir Si o No
+ * \return  devuelve 0 si es se pudo ingresar o -1 si no
+ */
 int utn_getCaracterSiNo(void);
 
+/**
+ * \brief Ingresa un caracteres para elegir Si o No
+ * \return  devuelve 0 si es se pudo ingresar o -1 si no
+ */
 int utn_getCaracterSiNoAgregar(void);
 
+/**
+ * \brief Ingresa un caracter
+ * \param *pResultado puntero donde se guardará el caracter
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param reintentos numero de reintentos que se permitiran
+ * \return  devuelve 0 si es se pudo ingresar o -1 si no
+ */
 int utn_getCaracter(char *pResultado, char *mensaje, char *mensajeError,
 		char string[][20], int cantidadArray, int reintentos);
 
+/**
+ * \brief Ingresa un numero flotante
+ * \param *pResultado puntero donde se guardará el numero flotante
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param minimo numero minimo permitido
+ * \param maximo numero maximo permitido
+ * \param reintentos numero de reintentos que se permitiran
+ * \return  devuelve 0 si es se pudo ingresar o -1 si no
+ */
 int utn_getNumeroFlotante(float *pResultado, char *mensaje, char *mensajeError,
 		float minimo, float maximo, int reintentos);
 
+/**
+ * \brief Ingresa un nombre
+ * \param *pResultado puntero donde se guardará el telefono
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param reintentos numero de reintentos que se permitiran
+ * \param longitud: longitud del nombre
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int utn_getNombre(char *pResultado, char *mensaje, char *mensajeError,
 		int reintentos, int longitud);
 
+/**
+ * \brief Valida que sea un DNI
+ * \param *cadena cadena de caracteres con el DNI a validar
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int esDNI(char *cadena);
 
+/**
+ * \brief Ingresa un DNI
+ * \param *pResultado puntero donde se guardará el DNI
+ * \param *mensaje cadena de caracteres con mensaje a ser mostrado
+ * \param *mensajeError cadena de caracteres con mensaje de error a ser mostrado
+ * \param reintentos numero de reintentos que se permitiran
+ * \return  devuelve 1 si es valida o 0 si no es válida
+ */
 int utn_getDNI(char *pResultado, char *mensaje, char *mensajeError,
 		int reintentos);
 
