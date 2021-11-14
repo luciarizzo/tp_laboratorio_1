@@ -49,24 +49,41 @@ int main() {
 			if (flagPrimeraCarga == 0){
 				controller_addEmployee(listaEmpleados);
 			} else {
-				printf("\nError. Debe cargar los datos de empleados primero con la opcion 2 o 3 del menu\n");
+				printf("\nError. Debe cargar los datos de empleados primero con la opcion 1 o 2 del menu\n");
 			}
 			break;
 
 		case 4: //Modificar datos de empleado
+			if (flagPrimeraCarga == 0){
 			controller_editEmployee(listaEmpleados);
+			} else {
+				printf("\nError. Debe cargar los datos de empleados primero con la opcion 1 o 2 del menu\n");
+			}
 			break;
 
 		case 5: //Baja de empleado
+			if (flagPrimeraCarga == 0){
 			controller_removeEmployee(listaEmpleados);
-			break;
+			} else {
+				printf("\nError. Debe cargar los datos de empleados primero con la opcion 1 o 2 del menu\n");
+			}
+				break;
 
 		case 6: //Listar empleados
+			if (flagPrimeraCarga == 0){
 			controller_ListEmployee(listaEmpleados);
+			} else {
+				printf("\nError. Debe cargar los datos de empleados primero con la opcion 1 o 2 del menu\n");
+			}
 			break;
 
 		case 7: //Ordenar empleados
+			if (flagPrimeraCarga == 0){
 			controller_sortEmployee(listaEmpleados);
+			}
+			else {
+				printf("\nError. Debe cargar los datos de empleados primero con la opcion 1 o 2 del menu\n");
+			}
 			break;
 
 		case 8: //Guardar los datos de los empleados en el archivo data.csv (modo texto).
