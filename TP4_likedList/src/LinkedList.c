@@ -92,20 +92,14 @@ static int addNode(LinkedList *this, int nodeIndex, void *pElement) {
 	if (this != NULL && auxNodeNuevo != NULL && nodeIndex >= 0
 			&& nodeIndex <= largoArray) {
 		auxNodeNuevo->pElement = pElement;
-		//2 posibilidades: que el index sea 0 o sea el primer NODO o sea mayor a 0
 		if (nodeIndex == 0) {
-			//asigno pFirstNode
 			auxNodeNuevo->pNextNode = this->pFirstNode;
 			this->pFirstNode = auxNodeNuevo;
 		} else {
-			//necesito obtener el nodo anterior de alguna forma, para "enlazarlo" con el nuevo
-			// el anterior al que quiero agregar, seria un indice menos
 			indexAnterior = nodeIndex - 1;
 			auxNodeAnterior = getNode(this, indexAnterior);
 			if (auxNodeAnterior != NULL) {
-				//asigno temporalmente el puntero next node del nodo anterior en el pnext node del nuevo, para no perderlo
 				auxNodeNuevo->pNextNode = auxNodeAnterior->pNextNode;
-				//asigno al nodo anterior al puntero del nuevo nodo
 				auxNodeAnterior->pNextNode = auxNodeNuevo;
 			}
 		}
@@ -159,7 +153,6 @@ int ll_add(LinkedList *this, void *pElement) {
 void* ll_get(LinkedList *this, int index) {
 	void *returnAux = NULL;
 	Node *auxNodo = NULL;
-	//validar q sea menor al ll_len
 	if (this != NULL && index >= 0 && index < ll_len(this)) {
 		auxNodo = getNode(this, index);
 		if (auxNodo != NULL) {
@@ -203,7 +196,6 @@ int ll_remove(LinkedList *this, int index) {
 	int returnAux = -1;
 	Node *auxNode = NULL;
 	Node *auxNodeAnterior = NULL;
-	//dos posibilidades: que el elemento q elimina sea el primero o que no.
 	if (this != NULL && index >= 0 && index < ll_len(this)) {
 		auxNode = getNode(this, index);
 		auxNodeAnterior = getNode(this, index - 1);
@@ -235,8 +227,6 @@ int ll_clear(LinkedList *this) {
 		for (i = largo; i >= 0; i--) {
 			if (ll_remove(this, i) == 0) {
 				returnAux = 0;
-			} else if (ll_remove(this, i) == -1) {
-				returnAux = -1;
 			}
 		}
 	}
@@ -275,10 +265,10 @@ int ll_indexOf(LinkedList *this, void *pElement) {
 	int returnAux = -1;
 	int i;
 	void *auxpElement = NULL;
-	int largoArray;
+	int largoLL;
 	if (this != NULL) {
-		largoArray = ll_len(this);
-		for (i = 0; i < largoArray; i++) {
+		largoLL = ll_len(this);
+		for (i = 0; i < largoLL; i++) {
 			auxpElement = ll_get(this, i);
 			if (auxpElement == pElement) {
 				returnAux = i;
@@ -300,10 +290,9 @@ int ll_indexOf(LinkedList *this, void *pElement) {
 int ll_isEmpty(LinkedList *this) {
 	int returnAux = -1;
 	if (this != NULL) {
-		if (this->pFirstNode == NULL && this->size == 0) {
+		returnAux = 0;
+		if (this->size == 0) {
 			returnAux = 1;
-		} else {
-			returnAux = 0;
 		}
 	}
 	return returnAux;
@@ -339,7 +328,7 @@ int ll_push(LinkedList *this, int index, void *pElement) {
 void* ll_pop(LinkedList *this, int index) {
 	void *returnAux = NULL;
 	Node *auxNodo = NULL;
-	if (this != NULL && index >= 0 && index <= ll_len(this)) {
+	if (this != NULL && index >= 0 && index < ll_len(this)) {
 		auxNodo = getNode(this, index);
 		if (auxNodo != NULL) {
 			returnAux = auxNodo->pElement;
@@ -362,10 +351,9 @@ int ll_contains(LinkedList *this, void *pElement) {
 	int retornoFuncion;
 	if (this != NULL) {
 		retornoFuncion = ll_indexOf(this, pElement);
+		returnAux = 1;
 		if (retornoFuncion == -1) {
 			returnAux = 0;
-		} else {
-			returnAux = 1;
 		}
 	}
 	return returnAux;
@@ -383,13 +371,12 @@ int ll_contains(LinkedList *this, void *pElement) {
 int ll_containsAll(LinkedList *this, LinkedList *this2) {
 	int returnAux = -1;
 	int i;
-	int largoArray;
-//la 1 ya la tendria "contemplada" en contains...
+	int largoLL;
 	void *auxpElement2 = NULL;
 	if (this != NULL && this2 != NULL) {
 		returnAux = 1;
-		largoArray = ll_len(this2);
-		for (i = 0; i < largoArray; i++) {
+		largoLL = ll_len(this2);
+		for (i = 0; i < largoLL; i++) {
 			auxpElement2 = ll_get(this2, i);
 			int retornoFuncion = ll_contains(this, auxpElement2);
 			if (retornoFuncion == 0) {
@@ -462,16 +449,11 @@ int ll_sort(LinkedList *this, int (*pFunc)(void*, void*), int order) {
 			for(j=i+1; j<largoLL; j++){
 				auxNodoUno = ll_get(this, i);
 				auxNodoDos = ll_get(this, j);
-				if((pFunc(auxNodoUno, auxNodoDos)>0) && order == 1){
+				if(((pFunc(auxNodoUno, auxNodoDos)>0) && order == 1) || ((pFunc(auxNodoUno, auxNodoDos)<0) && order == 0)){
 					ll_set(this, j, auxNodoUno);
 					ll_set(this, i, auxNodoDos);
 					returnAux = 0;
-				} else
-					if((pFunc(auxNodoUno, auxNodoDos)<0) && order == 0){
-						ll_set(this, j, auxNodoUno);
-						ll_set(this, i, auxNodoDos);
-						returnAux = 0;
-					}
+				}
 			}
 		}
 	}
